@@ -63,14 +63,14 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         Matrix.diagonal(size: size, diagonalValue: 1)
     }
     
-    static func filled(n: Int, m: Int, value: Scalar) -> Matrix {
+    static func filled(n: Int, m: Int, with value: Scalar) -> Matrix {
         Matrix(n: n, m: m) { _, _ in
             value
         }
     }
     
     static func zero(n: Int, m: Int) -> Matrix {
-        Matrix.filled(n: n, m: m, value: 0)
+        Matrix.filled(n: n, m: m, with: 0)
     }
     
     static func *(lhs: Matrix, rhs: Matrix) -> Matrix {
