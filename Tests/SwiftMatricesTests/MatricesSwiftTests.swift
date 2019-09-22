@@ -125,6 +125,39 @@ final class SwiftMatricesTests: XCTestCase {
         let otherMatrix = Matrix<Double>(n: 3, m: 3, values: values)
         XCTAssertEqual(matrix, otherMatrix)
     }
+    
+    func stringConversionTest() {
+        let matrix: Matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]
+        
+        let value = """
+        1  2  3
+        4  5  6
+        7  8  9
+        """
+        
+        XCTAssertEqual(matrix.description, value)
+    
+        let unevenSizeMatrix: Matrix = [
+            [-1, 2, 3],
+            [4, 523, 6],
+            [7, 8, 9]
+        ]
+        
+        let value2 = """
+        -1   2    3
+        4    523  6
+        7    8    9
+        """
+        XCTAssertEqual(unevenSizeMatrix.description, value2)
+        
+        
+        let empty: Matrix<Double> = [[]]
+        XCTAssertEqual(empty.description, "[Ø]")
+    }
 
     static var allTests = [
         ("testExample", testExample),
@@ -134,6 +167,7 @@ final class SwiftMatricesTests: XCTestCase {
         ("testArrayEquality", testArrayEquality),
         ("testAddition", testAddition),
         ("testTranspose", testTranspose),
-        ("testLiteral", testLiteral)
+        ("testLiteral", testLiteral),
+        ("stringConversionTest", stringConversionTest)
     ]
 }

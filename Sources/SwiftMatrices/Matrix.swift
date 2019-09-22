@@ -123,3 +123,30 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
     }
     
 }
+
+extension Matrix: CustomStringConvertible {
+    var description: String {
+        let stringValues = self.values.map { "\($0)" }
+        guard let maxCharCount = stringValues.map({ $0.count }).max() else {
+            return "[Ø]"
+        }
+        var value = ""
+        for i in 1..<n {
+            for j in 1..<m {
+                let currentStr = "\(self[i,j])"
+                let currentCount = currentStr.count
+                let remaining = maxCharCount - currentCount
+                let offset = String(repeatElement(" ", count: remaining))
+                value += currentStr
+                if j != m-1 {
+                    value += (offset + "  ")
+                }
+            }
+            if i != n-1 {
+                value += "\n"
+            }
+        }
+        
+        return value
+    }
+}
