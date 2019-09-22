@@ -98,6 +98,19 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         }
     }
     
+    static func -(lhs: Matrix, rhs: Matrix) -> Matrix {
+        precondition(lhs.n == rhs.n && lhs.m == rhs.m)
+        return Matrix(n: lhs.n, m: lhs.m) { i, j in
+            lhs[i,j] - rhs[i,j]
+        }
+    }
+    
+    static prefix func -(value: Matrix) -> Matrix {
+        return Matrix(n: value.n, m: value.m) { i, j in
+            -value[i, j]
+        }
+    }
+    
     subscript(i: Int, j: Int) -> Scalar {
         get {
             let index = i * m + j
