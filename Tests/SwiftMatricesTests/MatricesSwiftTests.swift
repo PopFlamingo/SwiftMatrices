@@ -241,7 +241,9 @@ final class SwiftMatricesTests: XCTestCase {
             [0, -1, 2]
         ]
         
-        print(matrix.gaussElimination())
+        let expected = Matrix<Double>.identity(size: 3)
+        
+        XCTAssertEqual(matrix.gaussElimination(), expected)
     }
     
 
