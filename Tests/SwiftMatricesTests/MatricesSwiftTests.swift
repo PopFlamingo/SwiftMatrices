@@ -215,6 +215,34 @@ final class SwiftMatricesTests: XCTestCase {
         XCTAssertEqual(matrix, expected)
     }
     
+    func testAddLine() {
+        var matrix: Matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]
+        let addedLine: Matrix = [
+            [1, 1, 1]
+        ]
+        
+        matrix.addLine(addedLine, at: 0)
+        let expectedResult: Matrix = [
+            [2, 3, 4],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]
+        XCTAssertEqual(matrix, expectedResult)
+    }
+    
+    func testGaussElimination() {
+        let matrix: Matrix = [
+            [2, -1, 0],
+            [-1, 2, -1],
+            [0, -1, 2]
+        ]
+        
+        print(matrix.gaussElimination())
+    }
     
 
     static var allTests = [
@@ -230,6 +258,8 @@ final class SwiftMatricesTests: XCTestCase {
         ("testGetLine", testGetLine),
         ("testGetColumn", testGetColumn),
         ("testSwapLines", testSwapLines),
-        ("testSwapColumns", testSwapColumns)
+        ("testSwapColumns", testSwapColumns),
+        ("testAddLine", testAddLine),
+        ("testGaussElimination", testGaussElimination)
     ]
 }

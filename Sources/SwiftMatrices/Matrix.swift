@@ -42,15 +42,15 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         self.m = m
         self.values = values
     }
-    /*
+    
     func gaussElimination() -> Matrix {
         var a = self
-        var r = 0
+        var r = -1
         for j in 0..<a.m {
-            var max = 0
+            var max: Scalar = 0
             var k = r+1
-            for i in (r+1)...a.n {
-                let value = a[i,j]
+            for i in (r+1)..<a.n {
+                let value = abs(a[i,j])
                 if value > max {
                     max = value
                     k = i
@@ -59,14 +59,22 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
             
             if a[k,j] != 0 {
                 r += 1
+                let divider = a[k,j]
                 for sj in 0..<a.m {
-                    a[k,sj] /= a[k,j]
+                    a[k,sj] /= divider
+                }
+                a.swapLines(k, r)
+                for i in 0..<self.n {
+                    if i != r {
+                        let modifiedR = -(a[i,j] * a.line(at: r))
+                        a.addLine(modifiedR, at: i)
+                    }
                 }
             }
-            
         }
+        return a
     }
- */
+ 
     
     func transposed() -> Matrix {
         Matrix(n: self.m, m: self.n) { i, j in
@@ -75,7 +83,7 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
     }
     
     func line(at i: Int) -> Matrix {
-        Matrix(n: 1, m: self.m) { i, j in
+        Matrix(n: 1, m: self.m) { _, j in
             self[i,j]
         }
     }
@@ -103,6 +111,16 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
             let index1 = i * m + column1
             let index2 = i * m + column2
             values.swapAt(index1, index2)
+        }
+    }
+    
+    mutating func addLine(_ values: Matrix, at line: Int) {
+        precondition(values.m == self.m)
+        precondition(values.n == 1)
+        let i = line
+        for j in 0..<self.m {
+            let index = i * m + j
+            self.values[index] += values[0,j]
         }
     }
     
