@@ -158,6 +158,34 @@ final class SwiftMatricesTests: XCTestCase {
         let empty: Matrix<Double> = [[]]
         XCTAssertEqual(empty.description, "[Ø]")
     }
+    
+    func testGetLine() {
+        let matrix: Matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]
+        XCTAssert(
+            matrix.line(at: 0) == [[1,2,3]]
+        )
+    }
+    
+    func testGetColumn() {
+        let matrix: Matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]
+        XCTAssert(
+            matrix.column(at: 0)
+                ==
+            [[1],
+            [4],
+            [7]]
+        )
+    }
+    
+    
 
     static var allTests = [
         ("testExample", testExample),
@@ -168,6 +196,8 @@ final class SwiftMatricesTests: XCTestCase {
         ("testAddition", testAddition),
         ("testTranspose", testTranspose),
         ("testLiteral", testLiteral),
-        ("testStringConversion", testStringConversion)
+        ("testStringConversion", testStringConversion),
+        ("testGetLine", testGetLine),
+        ("testGetColumn", testGetColumn)
     ]
 }

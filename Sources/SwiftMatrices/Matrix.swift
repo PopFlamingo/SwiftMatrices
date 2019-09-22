@@ -49,6 +49,18 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         }
     }
     
+    func line(at i: Int) -> Matrix {
+        Matrix(n: 1, m: self.m) { i, j in
+            self[i,j]
+        }
+    }
+    
+    func column(at j: Int) -> Matrix {
+        Matrix(n: self.n, m: 1) { i, j in
+            self[i,j]
+        }
+    }
+    
     static func diagonal(size: Int, diagonalValue: Scalar) -> Matrix<Scalar> {
         Matrix(n: size, m: size) { i, j in
             if i == j {
@@ -89,6 +101,10 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         Matrix(n: rhs.n, m: rhs.m) { i, j in
             lhs * rhs[i,j]
         }
+    }
+    
+    static func /(lhs: Matrix, rhs: Scalar) -> Matrix {
+        (1/rhs) * lhs
     }
     
     static func +(lhs: Matrix, rhs: Matrix) -> Matrix {
