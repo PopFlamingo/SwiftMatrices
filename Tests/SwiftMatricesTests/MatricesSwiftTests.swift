@@ -126,7 +126,7 @@ final class SwiftMatricesTests: XCTestCase {
         XCTAssertEqual(matrix, otherMatrix)
     }
     
-    func stringConversionTest() {
+    func testStringConversion() {
         let matrix: Matrix = [
             [1, 2, 3],
             [4, 5, 6],
@@ -168,6 +168,6 @@ final class SwiftMatricesTests: XCTestCase {
         ("testAddition", testAddition),
         ("testTranspose", testTranspose),
         ("testLiteral", testLiteral),
-        ("stringConversionTest", stringConversionTest)
+        ("testStringConversion", testStringConversion)
     ]
 }
