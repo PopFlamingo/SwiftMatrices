@@ -42,6 +42,31 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         self.m = m
         self.values = values
     }
+    /*
+    func gaussElimination() -> Matrix {
+        var a = self
+        var r = 0
+        for j in 0..<a.m {
+            var max = 0
+            var k = r+1
+            for i in (r+1)...a.n {
+                let value = a[i,j]
+                if value > max {
+                    max = value
+                    k = i
+                }
+            }
+            
+            if a[k,j] != 0 {
+                r += 1
+                for sj in 0..<a.m {
+                    a[k,sj] /= a[k,j]
+                }
+            }
+            
+        }
+    }
+ */
     
     func transposed() -> Matrix {
         Matrix(n: self.m, m: self.n) { i, j in
@@ -58,6 +83,26 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
     func column(at j: Int) -> Matrix {
         Matrix(n: self.n, m: 1) { i, j in
             self[i,j]
+        }
+    }
+    
+    mutating func swapLines(_ line1: Int, _ line2: Int) {
+        precondition(line1 >= 0 && line1 < self.n)
+        precondition(line2 >= 0 && line2 < self.n)
+        for j in 0..<self.m {
+            let index1 = line1 * m + j
+            let index2 = line2 * m + j
+            values.swapAt(index1, index2)
+        }
+    }
+    
+    mutating func swapColumns(_ column1: Int, _ column2: Int) {
+        precondition(column1 >= 0 && column1 < self.m)
+        precondition(column2 >= 0 && column2 < self.m)
+        for i in 0..<self.n {
+            let index1 = i * m + column1
+            let index2 = i * m + column2
+            values.swapAt(index1, index2)
         }
     }
     

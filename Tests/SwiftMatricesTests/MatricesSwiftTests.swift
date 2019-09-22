@@ -185,6 +185,36 @@ final class SwiftMatricesTests: XCTestCase {
         )
     }
     
+    func testSwapLines() {
+        var matrix: Matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]
+        matrix.swapLines(0, 1)
+        let expected: Matrix = [
+            [4, 5, 6],
+            [1, 2, 3],
+            [7, 8, 9]
+        ]
+        XCTAssertEqual(matrix, expected)
+    }
+    
+    func testSwapColumns() {
+        var matrix: Matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ]
+        matrix.swapColumns(0, 1)
+        let expected: Matrix = [
+            [2, 1, 3],
+            [5, 4, 6],
+            [8, 7, 9]
+        ]
+        XCTAssertEqual(matrix, expected)
+    }
+    
     
 
     static var allTests = [
@@ -198,6 +228,8 @@ final class SwiftMatricesTests: XCTestCase {
         ("testLiteral", testLiteral),
         ("testStringConversion", testStringConversion),
         ("testGetLine", testGetLine),
-        ("testGetColumn", testGetColumn)
+        ("testGetColumn", testGetColumn),
+        ("testSwapLines", testSwapLines),
+        ("testSwapColumns", testSwapColumns)
     ]
 }
