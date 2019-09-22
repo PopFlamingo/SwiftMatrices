@@ -131,8 +131,8 @@ extension Matrix: CustomStringConvertible {
             return "[Ø]"
         }
         var value = ""
-        for i in 1..<n {
-            for j in 1..<m {
+        for i in 0..<n {
+            for j in 0..<m {
                 let currentStr = "\(self[i,j])"
                 let currentCount = currentStr.count
                 let remaining = maxCharCount - currentCount
