@@ -1,7 +1,7 @@
 import XCTest
-@testable import MatricesSwift
+@testable import SwiftMatrices
 
-final class MatricesSwiftTests: XCTestCase {
+final class SwiftMatricesTests: XCTestCase {
     func testExample() {
         let maMatrice = Matrix<Double>(n: 10, m: 10) { i, j in
             Double(i * j)

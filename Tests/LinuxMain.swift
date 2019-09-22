@@ -1,7 +1,7 @@
 import XCTest
 
-import MatricesSwiftTests
+import SwiftMatricesTests
 
 var tests = [XCTestCaseEntry]()
-tests += MatricesSwiftTests.allTests()
+tests += SwiftMatricesTests.allTests()
 XCTMain(tests)
