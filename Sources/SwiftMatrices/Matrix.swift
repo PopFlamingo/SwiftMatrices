@@ -113,10 +113,12 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
     
     subscript(i: Int, j: Int) -> Scalar {
         get {
+            precondition(i >= 0 && i < self.n && j >= 0 && j < self.m)
             let index = i * m + j
             return values[index]
         }
         set {
+            precondition(i >= 0 && i < self.n && j >= 0 && j < self.m)
             let index = i * m + j
             values[index] = newValue
         }
