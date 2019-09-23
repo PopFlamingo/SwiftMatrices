@@ -45,11 +45,11 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
     
     func gaussElimination() -> Matrix {
         var a = self
-        var r = -1
-        for j in 0..<a.m {
+        var r = 0
+        for j in 0..<a.m where r < a.n {
             var max: Scalar = 0
-            var k = r+1
-            for i in (r+1)..<a.n {
+            var k = r
+            for i in r..<a.n {
                 let value = abs(a[i,j])
                 if value > max {
                     max = value
@@ -58,7 +58,6 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
             }
             
             if a[k,j] != 0 {
-                r += 1
                 let divider = a[k,j]
                 for sj in 0..<a.m {
                     a[k,sj] /= divider
@@ -70,6 +69,7 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
                         a.addLine(modifiedR, at: i)
                     }
                 }
+                r += 1
             }
         }
         return a
@@ -200,6 +200,12 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
             precondition(i >= 0 && i < self.n && j >= 0 && j < self.m)
             let index = i * m + j
             values[index] = newValue
+        }
+    }
+    
+    func isAlmostEqual(to other: Matrix, epsilon: Scalar) -> Bool {
+        return self.n == other.n && self.m == other.m && zip(self.values, other.values).allSatisfy { lhs, rhs in
+            lhs >= rhs-epsilon && lhs <= rhs+epsilon
         }
     }
     
