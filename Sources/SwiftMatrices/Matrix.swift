@@ -1,10 +1,10 @@
-struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
+public struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
     
-    init(arrayLiteral elements: [Scalar]...) {
+    public init(arrayLiteral elements: [Scalar]...) {
         self.init(elements: elements)
     }
     
-    init(elements: [[Scalar]]) {
+    public init(elements: [[Scalar]]) {
         self.n = elements.count
         self.m = elements.first?.count ?? 0
         self.values = Array()
@@ -17,13 +17,13 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         }
     }
     
-    typealias ArrayLiteralElement = [Scalar]
+    public typealias ArrayLiteralElement = [Scalar]
     
     public internal(set) var values: [Scalar]
     public internal(set) var n: Int
     public internal(set) var m: Int
     
-    init(n: Int, m: Int, filler: (Int,Int)->Scalar) {
+    public init(n: Int, m: Int, filler: (Int,Int)->Scalar) {
         values = Array<Scalar>()
         values.reserveCapacity(n*m)
         self.n = n
@@ -36,14 +36,14 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         }
     }
     
-    init(n: Int, m: Int, values: [Scalar]) {
+    public init(n: Int, m: Int, values: [Scalar]) {
         precondition(values.count == n*m)
         self.n = n
         self.m = m
         self.values = values
     }
     
-    func gaussElimination() -> Matrix {
+    public func gaussElimination() -> Matrix {
         var a = self
         var r = 0
         for j in 0..<a.m where r < a.n {
@@ -76,25 +76,25 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
     }
  
     
-    func transposed() -> Matrix {
+    public func transposed() -> Matrix {
         Matrix(n: self.m, m: self.n) { i, j in
             self[j,i]
         }
     }
     
-    func line(at i: Int) -> Matrix {
+    public func line(at i: Int) -> Matrix {
         Matrix(n: 1, m: self.m) { _, j in
             self[i,j]
         }
     }
     
-    func column(at j: Int) -> Matrix {
+    public func column(at j: Int) -> Matrix {
         Matrix(n: self.n, m: 1) { i, j in
             self[i,j]
         }
     }
     
-    mutating func swapLines(_ line1: Int, _ line2: Int) {
+    public mutating func swapLines(_ line1: Int, _ line2: Int) {
         precondition(line1 >= 0 && line1 < self.n)
         precondition(line2 >= 0 && line2 < self.n)
         for j in 0..<self.m {
@@ -104,7 +104,7 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         }
     }
     
-    mutating func swapColumns(_ column1: Int, _ column2: Int) {
+    public mutating func swapColumns(_ column1: Int, _ column2: Int) {
         precondition(column1 >= 0 && column1 < self.m)
         precondition(column2 >= 0 && column2 < self.m)
         for i in 0..<self.n {
@@ -114,7 +114,7 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         }
     }
     
-    mutating func addLine(_ values: Matrix, at line: Int) {
+    public mutating func addLine(_ values: Matrix, at line: Int) {
         precondition(values.m == self.m)
         precondition(values.n == 1)
         let i = line
@@ -124,7 +124,7 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         }
     }
     
-    static func diagonal(size: Int, diagonalValue: Scalar) -> Matrix<Scalar> {
+    public static func diagonal(size: Int, diagonalValue: Scalar) -> Matrix<Scalar> {
         Matrix(n: size, m: size) { i, j in
             if i == j {
                 return diagonalValue
@@ -134,21 +134,21 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         }
     }
     
-    static func identity(size: Int) -> Matrix<Scalar> {
+    public static func identity(size: Int) -> Matrix<Scalar> {
         Matrix.diagonal(size: size, diagonalValue: 1)
     }
     
-    static func filled(n: Int, m: Int, with value: Scalar) -> Matrix {
+    public static func filled(n: Int, m: Int, with value: Scalar) -> Matrix {
         Matrix(n: n, m: m) { _, _ in
             value
         }
     }
     
-    static func zero(n: Int, m: Int) -> Matrix {
+    public static func zero(n: Int, m: Int) -> Matrix {
         Matrix.filled(n: n, m: m, with: 0)
     }
     
-    static func *(lhs: Matrix, rhs: Matrix) -> Matrix {
+    public static func *(lhs: Matrix, rhs: Matrix) -> Matrix {
         precondition(lhs.m == rhs.n)
         let result = Matrix(n: lhs.n, m: rhs.m) { i, j in
             var acc: Scalar = 0
@@ -160,37 +160,37 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         return result
     }
     
-    static func *(lhs: Scalar, rhs: Matrix) -> Matrix {
+    public static func *(lhs: Scalar, rhs: Matrix) -> Matrix {
         Matrix(n: rhs.n, m: rhs.m) { i, j in
             lhs * rhs[i,j]
         }
     }
     
-    static func /(lhs: Matrix, rhs: Scalar) -> Matrix {
+    public static func /(lhs: Matrix, rhs: Scalar) -> Matrix {
         (1/rhs) * lhs
     }
     
-    static func +(lhs: Matrix, rhs: Matrix) -> Matrix {
+    public static func +(lhs: Matrix, rhs: Matrix) -> Matrix {
         precondition(lhs.n == rhs.n && lhs.m == rhs.m)
         return Matrix(n: lhs.n, m: lhs.m) { i, j in
             lhs[i,j] + rhs[i,j]
         }
     }
     
-    static func -(lhs: Matrix, rhs: Matrix) -> Matrix {
+    public static func -(lhs: Matrix, rhs: Matrix) -> Matrix {
         precondition(lhs.n == rhs.n && lhs.m == rhs.m)
         return Matrix(n: lhs.n, m: lhs.m) { i, j in
             lhs[i,j] - rhs[i,j]
         }
     }
     
-    static prefix func -(value: Matrix) -> Matrix {
+    public static prefix func -(value: Matrix) -> Matrix {
         return Matrix(n: value.n, m: value.m) { i, j in
             -value[i, j]
         }
     }
     
-    subscript(i: Int, j: Int) -> Scalar {
+    public subscript(i: Int, j: Int) -> Scalar {
         get {
             precondition(i >= 0 && i < self.n && j >= 0 && j < self.m)
             let index = i * m + j
@@ -203,7 +203,7 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
         }
     }
     
-    func isAlmostEqual(to other: Matrix, epsilon: Scalar) -> Bool {
+    public func isAlmostEqual(to other: Matrix, epsilon: Scalar) -> Bool {
         return self.n == other.n && self.m == other.m && zip(self.values, other.values).allSatisfy { lhs, rhs in
             lhs >= rhs-epsilon && lhs <= rhs+epsilon
         }
@@ -212,7 +212,7 @@ struct Matrix<Scalar: FloatingPoint>: Equatable, ExpressibleByArrayLiteral {
 }
 
 extension Matrix: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         let stringValues = self.values.map { "\($0)" }
         guard let maxCharCount = stringValues.map({ $0.count }).max() else {
             return "[Ø]"
