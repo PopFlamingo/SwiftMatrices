@@ -275,6 +275,24 @@ final class SwiftMatricesTests: XCTestCase {
         ]
         
         XCTAssert(equation2.gaussElimination().isAlmostEqual(to: expected2, epsilon: 0.001))
+        
+        let equation3: Matrix = [
+            [1,2,3],
+            [1,3,4],
+            [1,4,5],
+            [1,5,6],
+            [1,6,7]
+        ]
+        
+        let expected3: Matrix = [
+            [1, 0, 1],
+            [0, 1, 1],
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+        ]
+        
+        XCTAssert(equation3.gaussElimination().isAlmostEqual(to: expected3, epsilon: 0.001))
     }
     
 
